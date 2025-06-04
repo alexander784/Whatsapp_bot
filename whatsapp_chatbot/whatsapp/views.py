@@ -168,7 +168,7 @@ def web_chat(request):
             Message.objects.create(user=user, text=response_text, is_sent=True)
         return redirect('web_chat')
     messages = Message.objects.all().order_by('timestamp')
-    return render(request, 'whats_app/web_chat.html', {'messages': messages})
+    return render(request, 'whatsapp/web_chat.html', {'messages': messages})
 
 def get_messages(request):
     messages = Message.objects.all().order_by('timestamp')
