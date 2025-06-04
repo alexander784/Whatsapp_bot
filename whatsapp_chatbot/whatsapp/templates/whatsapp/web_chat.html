@@ -3,9 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Booking Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeae2;
+            background-image: url('https://cloud.githubusercontent.com/assets/398893/15136779/4e765036-1639-11e6-9201-67e728e86f39.jpg');
+        }
+        .header {
+            background-color: #075e54;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            position: relative;
+            max-width: 70%;
+            margin: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+            border-radius: 7.5px;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+        .received {
+            margin-left: auto;
+            background-color: #ffffff;
+            align-self: flex-end;
+        }
+        .received::after {
+            content: '';
+            position: absolute;
+            right: -7px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 7px solid #ffffff;
+            border-right: 7px solid transparent;
+        }
+        .sent {
+            margin-right: auto;
+            background-color: #d9fdd3;
+            align-self: flex-start;
+        }
+        .sent::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 7px solid #d9fdd3;
+            border-left: 7px solid transparent;
+        }
+        .timestamp {
+            font-size: 0.65rem;
+            color: rgba(0,0,0,0.6);
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .sent .timestamp {
+            justify-content: flex-start;
+        }
+        .received .timestamp {
+            justify-content: flex-end;
+        }
+        .input-container {
+            position: sticky;
+            bottom: 0;
+            background-color: #f0f2f5;
+            padding: 0.5rem;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+        }
+        .input-container form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 1.5rem;
+            background-color: white;
+            outline: none;
+        }
+        .input-container button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 1.5rem;
+            background-color: #25d366;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .input-container button:hover {
+            background-color: #1ebe57;
+        }
+    </style>
 </head>
 <body>
+    <div class="chat-container">
+        <div class="header">
+            <h1 class="text-xl font-semibold">Booking Bot</h1>
+        </div>
+        <div class="messages" id="messages">
+            {% for message in messages %}
+                <div class="message {% if message.is_sent %}sent{% else %}received{% endif %}" data-id="{{ message.id }}">
+                    {{ message.text }}
+                    <div class="timestamp">
+                        {{ message.timestamp }}
+                        {% if message.is_sent %}
+                            {% if message.status == 'sent' %}
+                            {% elif message.status == 'delivered' %}
+                            {% elif message.status == 'read' %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-center text-gray-600">No messages yet.</p>
+            {% endfor %}
+        </div>
+        <div class="input-container">
+            <form method="post" id="message-form">
+                {% csrf_token %}
+                <input type="text" name="message" placeholder="E.g., hey or 1 to make a booking" required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
     
 </body>
 </html>
