@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'whatsapp_chatbot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgres',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'whats_bot',
         'USER':'postgres',
         'PASSWORD':'@123456',
