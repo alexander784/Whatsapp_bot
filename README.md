@@ -29,7 +29,12 @@ A sleek, user-friendly WhatsApp chatbot built with Django to streamline booking 
    python3 manage.py migrate
 
 4. Configure Twilio credentials: 
-    Create  .env file and store the  (Account SID, Auth Token, and WhatsApp number)
+    Create  .env file and store the 
+    ```bash
+    Account SID=*********
+    Auth Token=****
+    WhatsApp number=****
+
  5. Run server:
     ```bash
     Python3 manage.py runserver
